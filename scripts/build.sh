@@ -6,7 +6,7 @@ source_dir="$(${ROOT_DIR}/scripts/prepare-source.sh)"
 
 if [[ "${INSTALL_BUILD_DEPS:-1}" == "1" ]]; then
     sudo apt-get update
-    sudo apt-get build-dep -y "qemu=${SOURCE_VERSION:-1:9.2.1+ds-1ubuntu4+tdx2.0~ppa2}"
+    sudo apt-get build-dep -y "${source_dir}"
 fi
 
 cd "${source_dir}"

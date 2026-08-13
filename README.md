@@ -21,6 +21,13 @@ The build script installs the exact source package's build dependencies.
 ./scripts/build.sh
 ```
 
+If `deb-src` entries are unavailable, point the build at a local or remote
+`.dsc` whose referenced artifacts are reachable:
+
+```bash
+SOURCE_DSC=/path/to/qemu_9.2.1+ds-1ubuntu4+tdx2.0~ppa2.dsc ./scripts/build.sh
+```
+
 Packages and build metadata are copied to `dist/`.
 
 To prepare the Debian source tree without compiling:

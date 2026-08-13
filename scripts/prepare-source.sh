@@ -10,7 +10,12 @@ readonly WORK_DIR="${WORK_DIR:-${ROOT_DIR}/work}"
 mkdir -p "${WORK_DIR}"
 cd "${WORK_DIR}"
 rm -rf qemu-*/
-apt-get source "qemu=${SOURCE_VERSION}"
+if [[ -n "${SOURCE_DSC:-}" ]]; then
+    dget --allow-unauthenticated "${SOURCE_DSC}"
+    dpkg-source -x "$(basename "${SOURCE_DSC}")"
+else
+    apt-get source "qemu=${SOURCE_VERSION}"
+fi
 source_dir="$(find . -maxdepth 1 -type d -name 'qemu-*' -print -quit)"
 test -n "${source_dir}"
 
