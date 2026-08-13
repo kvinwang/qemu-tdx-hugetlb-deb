@@ -12,14 +12,14 @@ cd "${WORK_DIR}"
 rm -rf qemu-*/
 if [[ -n "${SOURCE_DSC:-}" ]]; then
     if [[ "${SOURCE_DSC}" =~ ^https?:// ]]; then
-        dget --allow-unauthenticated "${SOURCE_DSC}"
+        dget --allow-unauthenticated "${SOURCE_DSC}" >&2
         source_dsc="${WORK_DIR}/$(basename "${SOURCE_DSC}")"
     else
         source_dsc="$(realpath "${SOURCE_DSC}")"
     fi
-    dpkg-source -x "${source_dsc}"
+    dpkg-source -x "${source_dsc}" >&2
 else
-    apt-get source "qemu=${SOURCE_VERSION}"
+    apt-get source "qemu=${SOURCE_VERSION}" >&2
 fi
 source_dir="$(find . -maxdepth 1 -type d -name 'qemu-*' -print -quit)"
 test -n "${source_dir}"
@@ -33,5 +33,5 @@ cd "${source_dir}"
 DEBEMAIL="${DEBEMAIL:-build@localhost}" \
 DEBFULLNAME="${DEBFULLNAME:-QEMU TDX HugeTLB Builder}" \
 dch --newversion "${PACKAGE_VERSION}" --distribution "${DIST}" \
-    "Backport upstream HugeTLB memory-attribute manager fix."
+    "Backport upstream HugeTLB memory-attribute manager fix." >&2
 printf '%s\n' "$(pwd)"
