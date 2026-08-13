@@ -12,7 +12,7 @@ Last-Update: 2026-08-13
 
 --- a/system/memory-attribute-manager.c
 +++ b/system/memory-attribute-manager.c
-@@ -30,9 +30,11 @@ static size_t memory_attribute_manager_get_block_size(const MemoryAttributeMana
+@@ -30,6 +30,8 @@ static size_t memory_attribute_manager_get_block_size(const MemoryAttributeMana
       * Use the host page size as the granularity to track the memory attribute.
       */
 -    g_assert(mgr && mgr->mr && mgr->mr->ram_block);
