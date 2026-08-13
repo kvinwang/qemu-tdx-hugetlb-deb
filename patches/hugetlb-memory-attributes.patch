@@ -1,0 +1,26 @@
+Description: Fix TDX memory attributes with HugeTLB RAM backends
+ Memory attributes are tracked at the host base-page granularity even when
+ the shared-memory RAMBlock uses a HugeTLB backend. This is a backport of
+ upstream QEMU commit 8922a758b29251d9009ec509e7f580b76509ab3d.
+Origin: upstream, https://gitlab.com/qemu-project/qemu/-/commit/8922a758b29251d9009ec509e7f580b76509ab3d
+Bug: https://gitlab.com/qemu-project/qemu/-/issues/2717
+Forwarded: not-needed
+Last-Update: 2026-08-13
+---
+ system/memory-attribute-manager.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+--- a/system/memory-attribute-manager.c
++++ b/system/memory-attribute-manager.c
+@@ -30,9 +30,11 @@ static size_t memory_attribute_manager_get_block_size(const MemoryAttributeMana
+      * Use the host page size as the granularity to track the memory attribute.
+      */
+-    g_assert(mgr && mgr->mr && mgr->mr->ram_block);
+-    g_assert(mgr->mr->ram_block->page_size == qemu_real_host_page_size());
+-    return mgr->mr->ram_block->page_size;
++    /*
++     * Memory attributes are tracked at host base-page granularity even when
++     * the shared-memory RAMBlock uses a HugeTLB backend.
++     */
++    return qemu_real_host_page_size();
+ }
