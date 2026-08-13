@@ -14,6 +14,11 @@ instead of asserting that a HugeTLB RAMBlock uses the host base page size.
 
 Use Ubuntu 25.04 (Plucky) with the Canonical TDX PPA source entries enabled.
 The build script installs the exact source package's build dependencies.
+Install the source packaging tools first:
+
+```bash
+sudo apt-get install devscripts quilt
+```
 
 ## Build
 
