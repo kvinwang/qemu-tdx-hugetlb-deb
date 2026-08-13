@@ -6,7 +6,7 @@ source_dir="$(${ROOT_DIR}/scripts/prepare-source.sh)"
 
 if [[ "${INSTALL_BUILD_DEPS:-1}" == "1" ]]; then
     sudo apt-get update
-    sudo apt-get build-dep -y "${source_dir}"
+    (cd "${source_dir}" && sudo apt-get build-dep -y ./)
 fi
 
 cd "${source_dir}"
