@@ -11,8 +11,13 @@ mkdir -p "${WORK_DIR}"
 cd "${WORK_DIR}"
 rm -rf qemu-*/
 if [[ -n "${SOURCE_DSC:-}" ]]; then
-    dget --allow-unauthenticated "${SOURCE_DSC}"
-    dpkg-source -x "$(basename "${SOURCE_DSC}")"
+    if [[ "${SOURCE_DSC}" =~ ^https?:// ]]; then
+        dget --allow-unauthenticated "${SOURCE_DSC}"
+        source_dsc="${WORK_DIR}/$(basename "${SOURCE_DSC}")"
+    else
+        source_dsc="$(realpath "${SOURCE_DSC}")"
+    fi
+    dpkg-source -x "${source_dsc}"
 else
     apt-get source "qemu=${SOURCE_VERSION}"
 fi
