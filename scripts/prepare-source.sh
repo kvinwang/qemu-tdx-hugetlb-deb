@@ -30,6 +30,7 @@ grep -qxF hugetlb-memory-attributes.patch "${source_dir}/debian/patches/series" 
     printf '%s\n' hugetlb-memory-attributes.patch >> "${source_dir}/debian/patches/series"
 
 cd "${source_dir}"
+QUILT_PATCHES=debian/patches quilt push -a >&2
 DEBEMAIL="${DEBEMAIL:-build@localhost}" \
 DEBFULLNAME="${DEBFULLNAME:-QEMU TDX HugeTLB Builder}" \
 dch --newversion "${PACKAGE_VERSION}" --distribution "${DIST}" \
